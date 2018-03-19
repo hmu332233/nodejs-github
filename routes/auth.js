@@ -4,6 +4,8 @@ module.exports = function(passport) {
 
   var passport = require('passport');
   var GitHubStrategy = require('passport-github').Strategy;
+  
+  var github = require('octonode');
 
   /* GET home page. */
   router.get('/signin', function(req, res, next) {
@@ -23,7 +25,18 @@ module.exports = function(passport) {
     passport.authenticate('github', { failureRedirect: '/auth/signin' }),
     function(req, res) {
       // Successful authentication, redirect home.
-      res.redirect('/');
+
+      var client = github.client(req.user.accessToken);
+      client.me().repos(function (err, repos) {
+        
+        res.json({
+          user: req.user,
+          repos: repos
+        });
+        
+      });
+    
+      
     }
   );
   

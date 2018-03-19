@@ -22,13 +22,13 @@ module.exports = function (app) {
   }));
 
   passport.serializeUser(function (data, done) {
-    console.log('serializeUser', data)
-    done(null, data)
+    console.log('serializeUser', data.profile.id)
+    done(null, data.profile.id)
   });
 
-  passport.deserializeUser(function (data, done) {
-    console.log('deserializeUser', data)
-    done(null, data);
+  passport.deserializeUser(function (id, done) {
+    console.log('deserializeUser', id)
+    done(null, id);
   })
 
   return passport
