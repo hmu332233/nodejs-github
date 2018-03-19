@@ -2,7 +2,7 @@ var app = require('./config/express')();
 var passport = require('./config/passport')(app);
 
 var index = require('./routes/index');
-var auth = require('./routes/auth');
+var auth = require('./routes/auth')(passport);
 
 
 app.use('/', index);

@@ -9,8 +9,8 @@ module.exports = function (app) {
 // 여기서 정의한 함수가 사용자 인증에 사용된다
 
   passport.use(new GitHubStrategy({
-    clientID: 'test',
-    clientSecret: 'test',
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
     callbackURL: '/auth/github/callback',
   },
   function (accessToken, refreshToken, profile, done) {
@@ -21,14 +21,14 @@ module.exports = function (app) {
      });
   }));
 
-  passport.serializeUser(function (user, done) {
-    console.log('serializeUser', user)
-    done(null, user.id)
+  passport.serializeUser(function (data, done) {
+    console.log('serializeUser', data)
+    done(null, data)
   });
 
-  passport.deserializeUser(function (id, done) {
-    console.log('deserializeUser', id)
-    done(null, id);
+  passport.deserializeUser(function (data, done) {
+    console.log('deserializeUser', data)
+    done(null, data);
   })
 
   return passport
