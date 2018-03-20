@@ -9,4 +9,4 @@ passport-github과 github api를 이용한
   - v3을 사용
 - [passport-github](https://www.npmjs.com/package/passport-github)
   - passport github
-
+  - passport-bitbucket

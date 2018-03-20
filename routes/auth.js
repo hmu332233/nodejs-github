@@ -40,5 +40,16 @@ module.exports = function(passport) {
     }
   );
   
+  router.get('/bitbucket', passport.authenticate('bitbucket'));
+
+  router.get('/bitbucket/callback',
+    passport.authenticate('bitbucket', { failureRedirect: '/auth/signin' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+
+     res.json(req.user);
+    }
+  );
+  
   return router;
 };
