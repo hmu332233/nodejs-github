@@ -6,6 +6,9 @@ module.exports = function(passport) {
   var GitHubStrategy = require('passport-github').Strategy;
   
   var github = require('octonode');
+  var Bitbucket = require('bitbucket-v2')
+  var bitbucketApi = new Bitbucket({useXhr: true}); //or: new Bitbucket({useXhr: true})
+  
 
   /* GET home page. */
   router.get('/signin', function(req, res, next) {
@@ -46,8 +49,12 @@ module.exports = function(passport) {
     passport.authenticate('bitbucket', { failureRedirect: '/auth/signin' }),
     function(req, res) {
       // Successful authentication, redirect home.
-
-     res.json(req.user);
+      
+        res.json({
+          user: req.user
+        });   
+    
+     
     }
   );
   

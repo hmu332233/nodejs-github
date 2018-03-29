@@ -10,3 +10,19 @@ passport-github과 github api를 이용한
 - [passport-github](https://www.npmjs.com/package/passport-github)
   - passport github
   - passport-bitbucket
+
+
+## access token 갱신
+
+- github
+```
+$ curl -X POST -u "client_id:secret"
+  https://api.github.com/applications/:client_id/tokens/:access_token
+```
+
+- bitbucket
+```
+$ curl -X POST -u "client_id:secret"
+  https://bitbucket.org/site/oauth2/access_token \
+  -d grant_type=refresh_token -d refresh_token={refresh_token}
+```
