@@ -89,9 +89,9 @@ module.exports = function(passport) {
       var client_id = process.env.GITHUB_CLIENT_ID;
       var secret = process.env.GITHUB_SECRET;
       
-      const auth_string = (client_id+':'+secret).toString('base64');
+      var auth_string = (client_id+':'+secret).toString('base64');
     
-      const options = {
+      var options = {
         url: `https://api.github.com/applications/${client_id}/tokens/${accessToken}`,
         method: 'POST',
         headers: {
@@ -121,7 +121,6 @@ module.exports = function(passport) {
           }
       };
     }
-
 
     request(options, function (err, _res, body) {
       res.json(JSON.parse(body));
