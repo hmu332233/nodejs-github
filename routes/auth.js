@@ -42,6 +42,7 @@ module.exports = function(passport) {
         
         res.render('result', {
           result: {
+            type: 'github',
             user: req.user,
             repos: repos
           },
@@ -68,6 +69,7 @@ module.exports = function(passport) {
 
       res.render('result', {
         result: {
+          type: 'bitbucket',
           user: req.user
         },
         log: result_string
@@ -75,6 +77,10 @@ module.exports = function(passport) {
 
     }
   );
+  
+  router.get('/refresh', function (req, res) {
+    res.json({test: 1});
+  });
   
   return router;
 };

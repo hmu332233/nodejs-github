@@ -9,14 +9,33 @@
 </head>
 
 <body>
+  type<br/>
+  <input value="<%= result.type %>"/><br/><br/>
   accessToken<br/>
   <input style="width: 100%" value="<%= result.user.accessToken %>"/><br/><br/>
   refreshToken
-  <input style="width: 100%" value="<%= result.user.refreshToken %>"/><br/>
+  <input style="width: 100%" value="<%= result.user.refreshToken %>"/><br/><br/>
+  <button onclick="refresh();">refresh</button>
   
   <script>
     
-    var decodeHtmlEntity = function(str) {
+    function httpGet(url, callback, err = console.error) {
+      const request = new XMLHttpRequest();
+      request.open('GET', url, true);
+      request.onload = () => callback(request.responseText);
+      request.onerror = () => err(request);
+      request.send();
+    };
+    
+    function refresh() {
+      var type = '<%= result.type %>';
+      var accessToken = '<%= result.user.accessToken %>';
+      var refreshToken = '<%= result.user.refreshToken %>';
+      
+      httpGet(`/auth/refresh?type=${type}&accessToken=${accessToken}&refreshToken=${refreshToken}`, console.log);
+    };
+    
+    function decodeHtmlEntity(str) {
       return str.replace(/&#(\d+);/g, function(match, dec) {
         return String.fromCharCode(dec);
       });
