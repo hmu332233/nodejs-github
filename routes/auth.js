@@ -10,6 +10,7 @@ module.exports = function(passport) {
   var bitbucketApi = new Bitbucket({useXhr: true}); //or: new Bitbucket({useXhr: true})
   
   var https = require('../modules/utils/https');
+  var request = require('request');
   
 
   /* GET home page. */
@@ -79,7 +80,38 @@ module.exports = function(passport) {
   );
   
   router.get('/refresh', function (req, res) {
-    res.json({test: 1});
+    
+    const accessToken = req.query.accessToken;
+    
+    const type = req.query.type;
+    if (type === 'github') {
+      var client_id = process.env.GITHUB_CLIENT_ID;
+      var secret = process.env.GITHUB_SECRET;
+      
+      const auth_string = (client_id+':'+secret).toString('base64');
+    
+      const options = {
+        url: `https://api.github.com/applications/${client_id}/tokens/${accessToken}`,
+        method: 'POST',
+        headers: {
+          'User-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.0 Safari/537.36'
+        },
+        auth: {
+          'user': client_id,
+          'pass': secret
+        }
+      }
+    } else {
+      var client_id = process.env.BITBUCKET_CLIENT_ID;
+      var secret = process.env.BITBUCKET_SECRET;
+    }
+
+    
+    
+    request(options, function (err, _res, body) {
+      res.json(JSON.parse(body));
+    });
+    
   });
   
   return router;

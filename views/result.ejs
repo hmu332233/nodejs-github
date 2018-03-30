@@ -32,7 +32,7 @@
       var accessToken = '<%= result.user.accessToken %>';
       var refreshToken = '<%= result.user.refreshToken %>';
       
-      httpGet(`/auth/refresh?type=${type}&accessToken=${accessToken}&refreshToken=${refreshToken}`, console.log);
+      httpGet(`/auth/refresh?type=${type}&accessToken=${accessToken}&refreshToken=${refreshToken}`, (data) => { console.log(JSON.parse(data))});
     };
     
     function decodeHtmlEntity(str) {
