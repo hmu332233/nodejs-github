@@ -82,6 +82,7 @@ module.exports = function(passport) {
   router.get('/refresh', function (req, res) {
     
     const accessToken = req.query.accessToken;
+    const refreshToken = req.query.refreshToken;
     
     const type = req.query.type;
     if (type === 'github') {
@@ -104,10 +105,24 @@ module.exports = function(passport) {
     } else {
       var client_id = process.env.BITBUCKET_CLIENT_ID;
       var secret = process.env.BITBUCKET_SECRET;
+
+      var dataString = `grant_type=refresh_token&refresh_token=${refreshToken}`;
+
+      var options = {
+          url: 'https://bitbucket.org/site/oauth2/access_token',
+          method: 'POST',
+          body: dataString,
+          headers: {
+             'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          auth: {
+              'user': client_id,
+              'pass': secret
+          }
+      };
     }
 
-    
-    
+
     request(options, function (err, _res, body) {
       res.json(JSON.parse(body));
     });
