@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    result
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  accessToken<br/>
+  <input style="width: 100%" value="<%= result.user.accessToken %>"/><br/><br/>
+  refreshToken
+  <input style="width: 100%" value="<%= result.user.refreshToken %>"/><br/>
+  
+  <script>
+    
+    var decodeHtmlEntity = function(str) {
+      return str.replace(/&#(\d+);/g, function(match, dec) {
+        return String.fromCharCode(dec);
+      });
+    };
+    
+    var result = '<%= log %>';
+    result = decodeHtmlEntity(result);
+    console.log(JSON.parse(result));
+  </script>
+</body>
+
+
+</html>

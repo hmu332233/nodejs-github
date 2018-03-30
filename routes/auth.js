@@ -9,6 +9,8 @@ module.exports = function(passport) {
   var Bitbucket = require('bitbucket-v2')
   var bitbucketApi = new Bitbucket({useXhr: true}); //or: new Bitbucket({useXhr: true})
   
+  var https = require('../modules/utils/https');
+  
 
   /* GET home page. */
   router.get('/signin', function(req, res, next) {
@@ -32,11 +34,19 @@ module.exports = function(passport) {
       var client = github.client(req.user.accessToken);
       client.me().repos(function (err, repos) {
         
-        res.json({
-          user: req.user,
-          repos: repos
+        var result_string = JSON.stringify({
+          accessToken: req.user.accessToken,
+          refreshToken: req.user.refreshToken,
+          profile: JSON.parse(req.user.profile._raw)
         });
         
+        res.render('result', {
+          result: {
+            user: req.user,
+            repos: repos
+          },
+          log: result_string
+        });
       });
     
       
@@ -50,11 +60,19 @@ module.exports = function(passport) {
     function(req, res) {
       // Successful authentication, redirect home.
       
-        res.json({
+      var result_string = JSON.stringify({
+        accessToken: req.user.accessToken,
+        refreshToken: req.user.refreshToken,
+        profile: JSON.parse(req.user.profile._raw)
+      });
+
+      res.render('result', {
+        result: {
           user: req.user
-        });   
-    
-     
+        },
+        log: result_string
+      });
+
     }
   );
   
